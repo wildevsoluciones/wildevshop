@@ -22,12 +22,6 @@ python app.py
 ```
 Abrí: http://127.0.0.1:5000
 
-## Credenciales demo
-- Admin: **admin** / **admin123!**
-- Usuario: **demo** / **demo123!**
-
-> Cambiá estas credenciales en cuanto lo pruebes.
-
 ## Notas
 - La base se crea en `instance/app.db`
 - Para resetear todo: borrá la carpeta `instance/` y reiniciá.
