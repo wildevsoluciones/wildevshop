@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="m-0">Órdenes</h3>
+    <div class="text-secondary">Últimas 200.</div>
+  </div>
+</div>
+
+<div class="card card-wildev p-3">
+  <div class="table-responsive">
+    <table class="table table-dark table-striped align-middle m-0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Email</th>
+          <th class="text-end">Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in orders %}
+          <tr>
+            <td>{{ o.id }}</td>
+            <td class="text-secondary">{{ o.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td>{{ o.customer_name }}</td>
+            <td class="text-secondary">{{ o.customer_email }}</td>
+            <td class="text-end">{{ money_ars(o.total) }}</td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-light" href="{{ url_for('admin_order_detail', order_id=o.id) }}">Detalle</a>
+            </td>
+          </tr>
+        {% endfor %}
+        {% if not orders %}
+          <tr><td colspan="6" class="text-secondary">Sin órdenes.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

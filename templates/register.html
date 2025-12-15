@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta | WilDev Shop{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card card-wildev p-4">
+      <h4 class="m-0">Crear cuenta</h4>
+      <p class="text-secondary mt-2">Para comprar (demo). El admin crea admins desde el panel.</p>
+      <hr class="border-secondary opacity-25 my-3">
+
+      <form method="post" class="row g-2">
+        <div class="col-12 col-md-6">
+          <label class="form-label text-secondary">Usuario</label>
+          <input class="form-control input-wildev" name="username" required>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label text-secondary">Email</label>
+          <input class="form-control input-wildev" name="email" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label text-secondary">Contraseña</label>
+          <input class="form-control input-wildev" type="password" name="password" required>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-wildev w-100 mt-2" type="submit">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

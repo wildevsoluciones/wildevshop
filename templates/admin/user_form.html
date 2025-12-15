@@ -1,0 +1,39 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="card card-wildev p-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h3 class="m-0">{% if mode=='new' %}Nuevo usuario{% else %}Editar usuario{% endif %}</h3>
+      <div class="text-secondary">Si editás y dejás contraseña vacía, no cambia.</div>
+    </div>
+    <a class="btn btn-outline-light" href="{{ url_for('admin_users') }}">Volver</a>
+  </div>
+  <hr class="border-secondary opacity-25 my-3">
+
+  <form method="post" class="row g-2">
+    <div class="col-12 col-md-5">
+      <label class="form-label text-secondary">Usuario</label>
+      <input class="form-control input-wildev" name="username" value="{{ user.username if user else '' }}" required>
+    </div>
+    <div class="col-12 col-md-5">
+      <label class="form-label text-secondary">Email</label>
+      <input class="form-control input-wildev" name="email" value="{{ user.email if user else '' }}" required>
+    </div>
+    <div class="col-12 col-md-2 d-flex align-items-end">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin" {% if user and user.is_admin %}checked{% endif %}>
+        <label class="form-check-label text-secondary" for="is_admin">Admin</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <label class="form-label text-secondary">Contraseña {% if mode=='edit' %}(opcional){% endif %}</label>
+      <input class="form-control input-wildev" type="password" name="password" {% if mode=='new' %}required{% endif %}>
+    </div>
+
+    <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+      <button class="btn btn-wildev" type="submit">Guardar</button>
+      <a class="btn btn-outline-light" href="{{ url_for('admin_users') }}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

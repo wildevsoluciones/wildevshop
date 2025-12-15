@@ -1,0 +1,74 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+
+<div class="card card-wildev p-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h3 class="m-0">
+        {% if mode=='new' %}Nuevo producto{% else %}Editar producto{% endif %}
+      </h3>
+      <div class="text-secondary">Campos básicos.</div>
+    </div>
+    <a class="btn btn-outline-light" href="{{ url_for('admin_products') }}">Volver</a>
+  </div>
+
+  <hr class="border-secondary opacity-25 my-3">
+
+  <form method="post" enctype="multipart/form-data" class="row g-2">
+
+    <div class="col-12 col-md-7">
+      <label class="form-label text-secondary">Nombre</label>
+      <input class="form-control input-wildev" name="name"
+             value="{{ product.name if product else '' }}" required>
+    </div>
+
+    <div class="col-12 col-md-5">
+      <label class="form-label text-secondary">Categoría</label>
+      <select class="form-control input-wildev" name="category" required>
+        {% for c in categories %}
+          <option value="{{ c }}"
+            {% if product and product.category == c %}selected{% endif %}>
+            {{ c }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label class="form-label text-secondary">Precio (ARS)</label>
+      <input class="form-control input-wildev" name="price" type="number" min="1"
+             value="{{ product.price if product else 1000 }}" required>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label class="form-label text-secondary">Stock</label>
+      <input class="form-control input-wildev" name="stock" type="number" min="0"
+             value="{{ product.stock if product else 10 }}">
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label class="form-label text-secondary">Imagen</label>
+      <input class="form-control input-wildev" type="file" name="image">
+    </div>
+
+    {% if product and product.image_url %}
+    <div class="col-12">
+      <img src="{{ product.image_url }}" style="max-height:140px;border-radius:12px;">
+    </div>
+    {% endif %}
+
+    <div class="col-12">
+      <label class="form-label text-secondary">Descripción</label>
+      <textarea class="form-control input-wildev" name="description"
+                rows="5">{{ product.description if product else '' }}</textarea>
+    </div>
+
+    <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+      <button class="btn btn-wildev" type="submit">Guardar</button>
+      <a class="btn btn-outline-light" href="{{ url_for('admin_products') }}">Cancelar</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Checkout | WilDev Shop{% endblock %}
+
+{% block content %}
+<div class="row g-3">
+  <div class="col-12 col-lg-7">
+    <div class="card card-wildev p-4">
+      <h4 class="m-0">Datos</h4>
+      <p class="text-secondary mt-2 mb-0">Esto es demo. No hay pago real; se guarda una orden en SQLite.</p>
+      <hr class="border-secondary opacity-25 my-3">
+
+      <form method="post">
+        <div class="row g-2">
+          <div class="col-12 col-md-6">
+            <label class="form-label text-secondary">Nombre</label>
+            <input class="form-control input-wildev" name="name" value="{{ default_name }}" required>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label text-secondary">Email</label>
+            <input class="form-control input-wildev" name="email" value="{{ default_email }}" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-wildev w-100 mt-2" type="submit">Confirmar orden</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-5">
+    <div class="card card-wildev p-4">
+      <h5 class="m-0">Tu carrito</h5>
+      <hr class="border-secondary opacity-25 my-3">
+      <div class="d-flex flex-column gap-2">
+        {% for it in items %}
+          <div class="d-flex justify-content-between">
+            <div class="text-secondary">{{ it.product.name }} <span class="text-light">x{{ it.qty }}</span></div>
+            <div class="text-light">{{ money_ars(it.subtotal) }}</div>
+          </div>
+        {% endfor %}
+        <hr class="border-secondary opacity-25 my-2">
+        <div class="d-flex justify-content-between">
+          <div class="text-secondary">Total</div>
+          <div class="price">{{ money_ars(total) }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

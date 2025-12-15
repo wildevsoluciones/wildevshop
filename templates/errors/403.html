@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}403 | WilDev Shop{% endblock %}
+{% block content %}
+  <div class="card card-wildev p-4">
+    <h3 class="m-0">403</h3>
+    <div class="text-secondary mt-2">No tenés permisos para ver esto.</div>
+    <a class="btn btn-outline-light mt-3" href="{{ url_for('home') }}">Volver</a>
+  </div>
+{% endblock %}
