@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Mis datos | WilDev Shop{% endblock %}
+{% block content %}
+
+<div class="card card-wildev p-3 p-md-4">
+  <h4 class="text-white m-0">Mis datos</h4>
+  <p class="text-secondary mt-2 mb-3">Información de la cuenta.</p>
+
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <div class="text-secondary small">Usuario</div>
+      <div class="text-white fw-bold">{{ current_user.username }}</div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="text-secondary small">Email</div>
+      <div class="text-white fw-bold">{{ current_user.email or '-' }}</div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="text-secondary small">Rol</div>
+      <div class="text-white fw-bold">{{ 'Admin' if current_user.is_admin else 'Cliente' }}</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

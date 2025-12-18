@@ -1,0 +1,64 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Categorías | Admin{% endblock %}
+
+{% block admin_content %}
+<div class="card card-wildev p-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="m-0 text-light">Categorías</h3>
+    <a class="btn btn-outline-light" href="{{ url_for('admin_products') }}">Volver</a>
+  </div>
+
+  <!-- Agregar nueva -->
+  <form method="post" class="d-flex flex-column flex-md-row gap-2 mb-4">
+    <input type="hidden" name="action" value="add">
+    <input
+      class="form-control input-wildev"
+      name="name"
+      placeholder="Nueva categoría"
+      autocomplete="off"
+      required
+    >
+    <button class="btn btn-wildev" type="submit">Agregar</button>
+  </form>
+
+  <!-- Lista completa -->
+  <div class="list-group">
+    {% for c in categories %}
+      <div class="list-group-item list-wildev d-flex flex-column flex-lg-row gap-2 justify-content-between align-items-lg-center">
+
+        <!-- Nombre -->
+        <strong class="text-warning">{{ c }}</strong>
+
+        <!-- Acciones -->
+        <div class="d-flex flex-column flex-md-row gap-2">
+
+          <!-- Editar -->
+          <form method="post" class="d-flex gap-2">
+            <input type="hidden" name="action" value="rename">
+            <input type="hidden" name="name" value="{{ c }}">
+            <input
+              class="form-control input-wildev"
+              name="new_name"
+              value="{{ c }}"
+              required
+            >
+            <button class="btn btn-outline-light" type="submit">Guardar</button>
+          </form>
+
+          <!-- Eliminar -->
+          <form method="post">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="name" value="{{ c }}">
+            <button class="btn btn-outline-light" type="submit">
+              Eliminar
+            </button>
+          </form>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
