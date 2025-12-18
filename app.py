@@ -1,23 +1,24 @@
 from __future__ import annotations
-
+from flask import Flask
 import json
 import os
 from datetime import datetime
 from uuid import uuid4
-
-<<<<<<< HEAD
-#import mercadopago
-=======
 import mercadopago
->>>>>>> 8d90886 (modificaciones del wildev shop)
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
-
 from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+# app
+app = Flask(__name__)
+
+# ======================
+# CATEGORÍAS (helpers)
+# ======================
 
 def _categories_path():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +27,7 @@ def _categories_path():
 def load_categories():
     path = _categories_path()
 
+    # crear archivo si no existe
     if not os.path.exists(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as f:
@@ -35,45 +37,95 @@ def load_categories():
         data = json.load(f)
 
     cats = data.get("categories", [])
-    cats = [c.strip() for c in cats if c and c.strip()]
+    cats = [str(c).strip() for c in cats if str(c).strip()]
 
+    # asegurar General primero
     if "General" not in cats:
         cats.insert(0, "General")
 
-    # eliminar duplicados (case-insensitive)
+    # dedupe manteniendo orden
     seen = set()
-    result = []
+    out = []
     for c in cats:
-        key = c.lower()
-        if key not in seen:
-            seen.append(key)
-            result.append(c)
+        if c not in seen:
+            seen.add(c)
+            out.append(c)
 
-    return result
+    return out
 
 def save_categories(categories):
     path = _categories_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    cats = [c.strip() for c in categories if c and c.strip()]
+    cats = [str(c).strip() for c in categories if str(c).strip()]
     if "General" not in cats:
         cats.insert(0, "General")
 
     seen = set()
-    result = []
+    out = []
     for c in cats:
-        key = c.lower()
-        if key not in seen:
-            seen.add(key)
-            result.append(c)
+        if c not in seen:
+            seen.add(c)
+            out.append(c)
 
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"categories": result}, f, ensure_ascii=False, indent=2)
+        json.dump({"categories": out}, f, ensure_ascii=False, indent=2)
+
+# ======================
+# CONTEXT PROCESSOR
+# ======================
+@app.context_processor
+def inject_categories():
+    return {
+        "all_categories": load_categories()
+    }
+
+# ======================
+# ADMIN: CATEGORÍAS (web)
+# ======================
+@app.route("/admin/categories", methods=["GET", "POST"])
+@login_required
+def admin_categories():
+    categories = load_categories()
+
+    if request.method == "POST":
+        action = request.form.get("action", "")
+        name = (request.form.get("name") or "").strip()
+        new_name = (request.form.get("new_name") or "").strip()
+
+        if action == "add":
+            if not name:
+                flash("Escribí un nombre de categoría.", "warning")
+            else:
+                categories.append(name)
+                save_categories(categories)
+                flash("Categoría agregada.", "success")
+
+        elif action == "delete":
+            if not name or name == "General":
+                flash("No podés borrar 'General'.", "warning")
+            else:
+                categories = [c for c in categories if c != name]
+                save_categories(categories)
+                flash("Categoría eliminada.", "success")
+
+        elif action == "rename":
+            if not name or name == "General":
+                flash("No podés renombrar 'General'.", "warning")
+            elif not new_name:
+                flash("Escribí el nuevo nombre.", "warning")
+            else:
+                categories = [new_name if c == name else c for c in categories]
+                save_categories(categories)
+                flash("Categoría actualizada.", "success")
+
+        return redirect(url_for("admin_categories"))
+
+    return render_template("admin/categories.html", categories=categories)
 # 1) Cargar .env (antes de leer variables)
 load_dotenv()
 
-# 2) Crear app UNA sola vez
-app = Flask(__name__)
+
 
 # 3) Configuración
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "pochi")
@@ -92,16 +144,6 @@ def allowed_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # 5) Mercado Pago env
-<<<<<<< HEAD
-#MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
-#MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY")
-#BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:5000")
-
-#if not MP_ACCESS_TOKEN:
-#    raise RuntimeError("Falta MP_ACCESS_TOKEN en el .env")
-
-#mp = mercadopago.SDK(MP_ACCESS_TOKEN)
-=======
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN")
 MP_PUBLIC_KEY = os.getenv("MP_PUBLIC_KEY")
 BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:5000")
@@ -110,7 +152,6 @@ if not MP_ACCESS_TOKEN:
     raise RuntimeError("Falta MP_ACCESS_TOKEN en el .env")
 
 mp = mercadopago.SDK(MP_ACCESS_TOKEN)
->>>>>>> 8d90886 (modificaciones del wildev shop)
 
 # 6) Extensiones
 db = SQLAlchemy(app)
@@ -599,6 +640,10 @@ def admin_dashboard():
             order_count=order_count,
             latest_orders=latest_orders
         )
+@app.get("/perfil")
+@login_required
+def profile():
+    return render_template("profile.html")
 
 
     # Products CRUD

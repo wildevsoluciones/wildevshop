@@ -13,38 +13,32 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-wildev sticky-top">
   <div class="container">
-<<<<<<< HEAD
     <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
       <span class="brand-dot"></span> WilDev <span class="brand-sub">Shop</span>
     </a>
 
-    <!-- Hamburguesa: abre el drawer de categorías -->
-    <button class="navbar-toggler" type="button" onclick="toggleCats()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- Botones mobile -->
+    <div class="d-flex align-items-center gap-2 ms-auto">
 
-    <!-- Si querés mantener el menú colapsable de Bootstrap, dejalo.
-         Si no lo usás, podés borrar todo este bloque collapse. -->
+      <!-- Botón CATEGORÍAS (abre tu drawer) -->
+      <button class="btn btn-outline-light d-lg-none" type="button" onclick="toggleCats()"
+              aria-controls="catDrawer" aria-label="Categorías">
+        Categorías
+      </button>
+
+      <!-- Hamburguesa REAL (abre el menú Bootstrap con login/carrito/etc) -->
+      <button class="navbar-toggler d-lg-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navMain"
+              aria-controls="navMain" aria-expanded="false" aria-label="Menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    </div>
+
     <div class="collapse navbar-collapse" id="navMain">
-=======
-
-    <!-- LOGO -->
-    <a class="navbar-brand wildev-brand" href="{{ url_for('home') }}">
-      <span class="wildev-icon">⚡</span>
-      <span class="wildev-text">WilDev <span class="brand-sub">Shop</span></span>
-    </a>
-
-    <!-- BOTÓN CATEGORÍAS (drawer) -->
-    <button class="navbar-toggler d-lg-none" type="button" onclick="toggleCats()" aria-label="Categorías">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- NAV + BUSCADOR -->
-    <div class="collapse navbar-collapse" id="navMain">
-
->>>>>>> 8d90886 (modificaciones del wildev shop)
       <form class="d-flex ms-lg-3 my-2 my-lg-0 flex-grow-1" action="{{ url_for('home') }}" method="get">
-        <input class="form-control me-2 input-wildev" type="search" name="q" placeholder="Buscar productos…" value="{{ request.args.get('q','') }}">
+        <input class="form-control me-2 input-wildev" type="search" name="q"
+               placeholder="Buscar productos…" value="{{ request.args.get('q','') }}">
         <button class="btn btn-wildev" type="submit">Buscar</button>
       </form>
 
@@ -59,35 +53,28 @@
         </li>
 
         {% if current_user.is_authenticated %}
-          {% if current_user.is_admin %}
-          <li class="nav-item me-lg-2">
-            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Admin</a>
-          </li>
-          {% endif %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              {{ current_user.username }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-              <li><a class="dropdown-item" href="{{ url_for('home') }}">Tienda</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form action="{{ url_for('logout') }}" method="post" class="px-3">
-                  <button class="btn btn-sm btn-outline-light w-100" type="submit">Salir</button>
-                </form>
-              </li>
-            </ul>
-          </li>
+         {% if current_user.is_admin %}
+  <li class="nav-item me-lg-2">
+    <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Panel</a>
+  </li>
+{% endif %}
+
+
+          <li><a class="dropdown-item" href="{{ url_for('profile') }}">Mis datos</a></li>
+
+<li><hr class="dropdown-divider"></li>
+<li>
+  <form action="{{ url_for('logout') }}" method="post" class="px-3 py-2">
+    <button class="btn btn-outline-light w-100" type="submit">Salir</button>
+  </form>
+</li>
+
         {% else %}
           <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Crear cuenta</a></li>
         {% endif %}
       </ul>
     </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d90886 (modificaciones del wildev shop)
   </div>
 </nav>
 
@@ -107,19 +94,11 @@
   {% block content %}{% endblock %}
 </main>
 
-<footer class="footer-wildev py-4 mt-4">
-  <div class="container small text-secondary d-flex flex-column flex-md-row justify-content-between gap-2">
-<<<<<<< HEAD
-    <div>Demo ecommerce — Flask + SQLite</div>
-    <div class="text-secondary">Hecho para iterar en VS Code. Sin pasarela de pago real.</div>
-=======
-    <div>© {{ now().year if now else "" }} WilDev Shop</div>
-    <div class="text-secondary">Tecnología, periféricos y más.</div>
->>>>>>> 8d90886 (modificaciones del wildev shop)
-  </div>
+<footer class="footer-wildev text-center small">
+  © {{ year }} WilDev Shop · Plataforma de comercio electrónico
 </footer>
 
-<!-- Drawer categorías mobile (vacío; se clona desde sidebar si existe) -->
+<!-- Drawer categorías mobile (se clona desde sidebar si existe) -->
 <div id="catDrawer" class="cat-drawer" aria-hidden="true">
   <div class="cat-drawer-header">
     <span>Categorías</span>

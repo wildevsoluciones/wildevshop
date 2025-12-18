@@ -20,10 +20,6 @@ python -m venv .venv
 pip install -r requirements.txt
 python app.py
 ```
-<<<<<<< HEAD
-Abrí: http://127.0.0.1:5000
-
-=======
 
 Abrí: http://127.0.0.1:5000
 
@@ -33,7 +29,6 @@ Abrí: http://127.0.0.1:5000
 
 > Cambiá estas credenciales en cuanto lo pruebes.
 
->>>>>>> 8d90886 (modificaciones del wildev shop)
 ## Notas
 - La base se crea en `instance/app.db`
 - Para resetear todo: borrá la carpeta `instance/` y reiniciá.

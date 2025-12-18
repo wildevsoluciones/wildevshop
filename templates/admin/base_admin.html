@@ -8,16 +8,24 @@
       <h5 class="m-0">Admin</h5>
       <a class="small text-warning text-decoration-none" href="{{ url_for('home') }}">Tienda</a>
     </div>
+
     <div class="list-group list-group-flush">
       <a class="list-group-item list-group-item-action list-wildev {% if request.path=='/admin' %}active{% endif %}"
          href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+
       <a class="list-group-item list-group-item-action list-wildev {% if '/admin/products' in request.path %}active{% endif %}"
          href="{{ url_for('admin_products') }}">Productos</a>
+
+      <a class="list-group-item list-group-item-action list-wildev {% if '/admin/categories' in request.path %}active{% endif %}"
+         href="{{ url_for('admin_categories') }}">Categorías</a>
+
       <a class="list-group-item list-group-item-action list-wildev {% if '/admin/users' in request.path %}active{% endif %}"
          href="{{ url_for('admin_users') }}">Usuarios</a>
+
       <a class="list-group-item list-group-item-action list-wildev {% if '/admin/orders' in request.path %}active{% endif %}"
          href="{{ url_for('admin_orders') }}">Órdenes</a>
     </div>
+
     <hr class="border-secondary opacity-25 my-3">
     <form action="{{ url_for('logout') }}" method="post">
       <button class="btn btn-sm btn-outline-light w-100" type="submit">Cerrar sesión</button>

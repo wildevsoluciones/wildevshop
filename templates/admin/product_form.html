@@ -22,17 +22,18 @@
              value="{{ product.name if product else '' }}" required>
     </div>
 
-    <div class="col-12 col-md-5">
-      <label class="form-label text-secondary">Categoría</label>
-      <select class="form-control input-wildev" name="category" required>
-        {% for c in categories %}
-          <option value="{{ c }}"
-            {% if product and product.category == c %}selected{% endif %}>
-            {{ c }}
-          </option>
-        {% endfor %}
-      </select>
-    </div>
+<div class="col-10 col-md-5">
+  <label class="form-label text-secondary">Categoría</label>
+  <select name="category" class="form-select input-wildev">
+    {% for c in all_categories %}
+      <option value="{{ c }}" {% if product and product.category == c %}selected{% endif %}>
+        {{ c }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
+
+
 
     <div class="col-12 col-md-4">
       <label class="form-label text-secondary">Precio (ARS)</label>

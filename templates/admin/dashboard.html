@@ -1,44 +1,55 @@
 {% extends "admin/base_admin.html" %}
 {% block admin_content %}
-<div class="hero-wildev p-4 p-md-5 mb-3">
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
-    <div>
-      <h2 class="fw-bold m-0">Dashboard</h2>
-      <p class="text-secondary m-0 mt-2">Control total (demo). La realidad siempre es más caótica.</p>
-    </div>
-    <div class="d-flex gap-2">
-      <a class="btn btn-wildev" href="{{ url_for('admin_product_new') }}">Nuevo producto</a>
-      <a class="btn btn-outline-light" href="{{ url_for('admin_user_new') }}">Nuevo usuario</a>
-    </div>
-  </div>
+
+{# =========================
+   BOTONERA SUPERIOR
+   ========================= #}
+<div class="d-flex justify-content-end gap-2 mb-3">
+  <a class="btn btn-wildev" href="{{ url_for('admin_product_new') }}">
+    Nuevo producto
+  </a>
+  <a class="btn btn-outline-light" href="{{ url_for('admin_user_new') }}">
+    Nuevo usuario
+  </a>
 </div>
 
+{# =========================
+   KPIs
+   ========================= #}
 <div class="row g-3">
   <div class="col-12 col-md-4">
     <div class="card card-wildev p-3">
       <div class="text-secondary">Productos</div>
-      <div class="display-6 fw-bold">{{ product_count }}</div>
+      <div class="display-6 fw-bold text-white">{{ product_count }}</div>
     </div>
   </div>
+
   <div class="col-12 col-md-4">
     <div class="card card-wildev p-3">
       <div class="text-secondary">Usuarios</div>
-      <div class="display-6 fw-bold">{{ user_count }}</div>
+      <div class="display-6 fw-bold text-white">{{ user_count }}</div>
     </div>
   </div>
+
   <div class="col-12 col-md-4">
     <div class="card card-wildev p-3">
       <div class="text-secondary">Órdenes</div>
-      <div class="display-6 fw-bold">{{ order_count }}</div>
+      <div class="display-6 fw-bold text-white">{{ order_count }}</div>
     </div>
   </div>
 </div>
 
+{# =========================
+   ÚLTIMAS ÓRDENES
+   ========================= #}
 <div class="card card-wildev p-3 mt-3">
   <div class="d-flex justify-content-between align-items-center mb-2">
-    <h5 class="m-0">Últimas órdenes</h5>
-    <a class="btn btn-sm btn-outline-light" href="{{ url_for('admin_orders') }}">Ver todas</a>
+    <h5 class="m-0 text-white">Últimas órdenes</h5>
+    <a class="btn btn-sm btn-outline-light" href="{{ url_for('admin_orders') }}">
+      Ver todas
+    </a>
   </div>
+
   <div class="table-responsive">
     <table class="table table-dark table-striped align-middle m-0">
       <thead>
@@ -54,19 +65,30 @@
         {% for o in latest_orders %}
           <tr>
             <td>{{ o.id }}</td>
-            <td class="text-secondary">{{ o.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td class="text-secondary">
+              {{ o.created_at.strftime("%Y-%m-%d %H:%M") }}
+            </td>
             <td>{{ o.customer_name }}</td>
             <td class="text-end">{{ money_ars(o.total) }}</td>
             <td class="text-end">
-              <a class="btn btn-sm btn-outline-light" href="{{ url_for('admin_order_detail', order_id=o.id) }}">Detalle</a>
+              <a class="btn btn-sm btn-outline-light"
+                 href="{{ url_for('admin_order_detail', order_id=o.id) }}">
+                Detalle
+              </a>
             </td>
           </tr>
         {% endfor %}
+
         {% if not latest_orders %}
-          <tr><td colspan="5" class="text-secondary">Aún no hay órdenes.</td></tr>
+          <tr>
+            <td colspan="5" class="text-secondary">
+              Aún no hay órdenes.
+            </td>
+          </tr>
         {% endif %}
       </tbody>
     </table>
   </div>
 </div>
+
 {% endblock %}

@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 {
-  "categories": ["General"]
+  "categories": [
+    "General",
+    "mesas",
+    "asd"
+  ]
 }
-=======
-{
-  "categories": ["General"]
-}
->>>>>>> 8d90886 (modificaciones del wildev shop)
